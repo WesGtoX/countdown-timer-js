@@ -10,8 +10,22 @@ const secondsSpan = clock.querySelector('.seconds');
 endDate.addEventListener('change', function(e) {
     e.preventDefault();
     clearInterval(timeInterval);
-    console.log(this);
-    const endDate = new Date(this.value);
+    console.dir(this);
+    const endDateTemp = new Date(this.value);
+    startClock(endDateTemp);
 })
+
+function startClock(endTime) {
+    function updateCounter() {
+        let t = timeRemaining(endTime);
+        console.log(t);
+    }
+    updateCounter();
+    timeInterval = setInterval(updateCounter,1000);
+}
+
+function timeRemaining(endTime) {
+    return 'checked';
+}
 
 //console.log(endDate);
