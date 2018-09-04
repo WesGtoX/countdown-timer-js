@@ -1,4 +1,4 @@
-# JavaScript Countdown
+# JavaScript Countdown Timer
 
 A countdown timer created to study JavaScript.
 
