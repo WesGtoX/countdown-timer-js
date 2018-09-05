@@ -17,7 +17,6 @@ if (savedTime) {
 endDate.addEventListener('change', function(e) {
     e.preventDefault();
     clearInterval(timeInterval);
-    //console.dir(this);
     const endDateTemp = new Date(this.value);
     localStorage.setItem('countdown',endDateTemp);
     startClock(endDateTemp);
@@ -66,5 +65,3 @@ function timeRemaining(endTime) {
         'seconds':seconds
     };
 }
-
-//console.log(endDate);
