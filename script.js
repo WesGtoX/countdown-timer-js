@@ -6,29 +6,50 @@ const daysSpan = clock.querySelector('.days');
 const hoursSpan = clock.querySelector('.hours');
 const minutesSpan = clock.querySelector('.minutes');
 const secondsSpan = clock.querySelector('.seconds');
+const savedTime = localStorage.getItem('countdown') || false;
+
+if (savedTime) {
+    startClock(savedTime);
+    let dated = new Date(savedTime);
+    endDate.valueAsDate = dated;
+}
 
 endDate.addEventListener('change', function(e) {
     e.preventDefault();
     clearInterval(timeInterval);
     //console.dir(this);
     const endDateTemp = new Date(this.value);
+    localStorage.setItem('countdown',endDateTemp);
     startClock(endDateTemp);
 })
 
 function startClock(endTime) {
+    let correctDate;
     function updateCounter() {
         let t = timeRemaining(endTime);
-        console.log(t);
-        daysSpan.innerHTML = t.days;
-        hoursSpan.innerHTML = ('0'+t.hours).slice(-2);
-        minutesSpan.innerHTML = ('0'+t.minutes).slice(-2);
-        secondsSpan.innerHTML = ('0'+t.seconds).slice(-2);
-        if (t.total <= 0) {
+        if ((t.total <= 0) || Number.isNaN(t.total)) {
+            correctDate = false;
+            if (t.total <= 0) {
+                alert("Por favor, escolha uma data futura!")
+            }
             clearInterval(timeInterval);
+            daysSpan.innerHTML = "0";
+            hoursSpan.innerHTML = "0";
+            minutesSpan.innerHTML = "0";
+            secondsSpan.innerHTML = "0";
+        } else {
+            correctDate = true;
+            daysSpan.innerHTML = t.days;
+            hoursSpan.innerHTML = ('0'+t.hours).slice(-2);
+            minutesSpan.innerHTML = ('0'+t.minutes).slice(-2);
+            secondsSpan.innerHTML = ('0'+t.seconds).slice(-2);
+            console.log(t);
         }
     }
     updateCounter();
-    timeInterval = setInterval(updateCounter,1000);
+    if (correctDate) {
+        timeInterval = setInterval(updateCounter,1000);
+    }
 }
 
 function timeRemaining(endTime) {
